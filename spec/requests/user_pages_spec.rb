@@ -5,12 +5,13 @@ describe "User pages" do
 	subject { page }
 
   describe "profile page" do
-		let(:user) { FactoryGirl.create(:user) }
-		before { visit user_path(user) }
+		let(:variable) { FactoryGirl.create(:user) }		
+		# :user refrences FactoryGirl :user [model] in app/spec/factories.rb 
+		before { visit user_path(variable) }
 		
-		it { should have_selector('h1',			text: user.name) }
-		it { should have_selector('title',	text: user.name) }
-  end
+		it { should have_selector('h1',			text: variable.name) }
+		it { should have_selector('title',	text: variable.name) }
+  end 
 
   describe "signup page" do
 		before { visit signup_path }
@@ -27,10 +28,19 @@ describe "User pages" do
 		
 		describe "with invalid information" do
 			it "should not create a user" do
-				expect { click_button submit }.not_to change(User, :count)
+				expect { click_button submit }.not_to change(User, :count) 
 			end
+			
+			describe "after submission" do
+				before { click_button submit }
+				
+				it { should have_selector('title', text: 'Sign up') }
+				it { should have_content('error') }
+				it { should_not have_content('Password digest') }
+			end
+			
 		end
-		
+		 
 		describe "with valid information" do
 			before do
 				fill_in "Name", 						with: "Example User"
@@ -41,7 +51,16 @@ describe "User pages" do
 			
 			it "should create a user" do
 				expect{ click_button submit }.to change(User, :count).by(1)
-			end			
+			end
+			
+			describe "after saving the user" do 
+				before { click_button submit }
+				let(:user) { User.find_by_email('user@example.com') }
+				
+				it { should have_selector('title', text: user.name) }
+				it { should have_selector('div.alert.alert-success', text: 'Welcome ') }
+			end	
+					
 		end		
   end
   

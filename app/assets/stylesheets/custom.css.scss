@@ -11,7 +11,7 @@ $grayMediumLight: #eaeaea;
 @mixin box_sizing {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+	box-sizing: border-box;  
 }
 
 /* universal */
@@ -170,7 +170,7 @@ input, textares, select, .uneditable-input {
 	}
 }
 
-.field_with_errors {
+.field_with_errors {					/* Rails Css class  */
 	@extend .control-group;
 	@extend .error;
 }

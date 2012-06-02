@@ -13,9 +13,9 @@ class UsersController < ApplicationController
 			if @user.save
 				# Handle a successful save, with success message.
 				flash[:success] = "Welcome to the Sample App!"
-				redirect_to @user
+				redirect_to @user		# @user is equivalent to: user_path(user) 
 			else
-				render 'new'
+				render 'new' # = NAME OF THE TEMPLATE
 			end
   end
   
